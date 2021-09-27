@@ -3,6 +3,8 @@ package com.blogpessoal.Turma34.controladores;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,8 +46,8 @@ public class UsuarioControlador {
 	}
 	
 	@PostMapping("/salvar")
-	public ResponseEntity<Usuario> salvar(@RequestBody Usuario novoUsuario){
+	public ResponseEntity<Usuario> salvar(@Valid @RequestBody Usuario novoUsuario){
 		return ResponseEntity.status(201).body(repositorio.save(novoUsuario));
-		
+
 	}
 }
