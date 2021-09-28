@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blogpessoal.Turma34.modelos.Usuario;
 import com.blogpessoal.Turma34.repositorios.UsuarioRepositorio;
+import com.blogpessoal.Turma34.servicos.UsuarioServicos;
 
 @RestController
 @RequestMapping("/api/v1/usuario")
@@ -26,6 +27,7 @@ import com.blogpessoal.Turma34.repositorios.UsuarioRepositorio;
 public class UsuarioControlador {
 
 	private @Autowired UsuarioRepositorio repositorio;
+	private @Autowired UsuarioServicos servicos;
 
 	@GetMapping("/todes")
 	public ResponseEntity<List<Usuario>> pegarTodes() {
@@ -50,8 +52,9 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("/salvar")
-	public ResponseEntity<Usuario> salvar(@Valid @RequestBody Usuario novoUsuario) {
-		return ResponseEntity.status(201).body(repositorio.save(novoUsuario));
+	public ResponseEntity<Object> salvar(@Valid @RequestBody Usuario novoUsuario) {
+		return servicos.cadastrarUsuario(novoUsuario).map(resp -> ResponseEntity.status(201).body(resp))
+				.orElse(ResponseEntity.status(400).build());
 
 	}
 
