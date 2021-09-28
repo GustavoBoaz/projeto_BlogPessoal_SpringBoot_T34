@@ -22,7 +22,7 @@ import com.blogpessoal.Turma34.repositorios.UsuarioRepositorio;
 
 @RestController
 @RequestMapping("/api/v1/usuario")
-@CrossOrigin("*")
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 public class UsuarioControlador {
 
 	private @Autowired UsuarioRepositorio repositorio;
