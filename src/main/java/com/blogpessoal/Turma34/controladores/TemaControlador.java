@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blogpessoal.Turma34.modelos.Tema;
-import com.blogpessoal.Turma34.modelos.Usuario;
 import com.blogpessoal.Turma34.repositorios.TemaRepositorio;
 
 @RestController
