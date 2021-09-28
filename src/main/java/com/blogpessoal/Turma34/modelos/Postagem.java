@@ -6,9 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Classe espelho da tabela postagem no banco db_blogpessoal.
@@ -26,6 +29,16 @@ public class Postagem {
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataPostagem = LocalDate.now();
+
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	@JsonIgnoreProperties({"minhasPostagens"})
+	private Usuario criador;
+
+	@ManyToOne
+	@JoinColumn(name = "tema_id")
+	@JsonIgnoreProperties({"postagens"})
+	private Tema temaRelacionado;
 
 	public Long getIdPostagem() {
 		return idPostagem;
@@ -57,6 +70,22 @@ public class Postagem {
 
 	public void setDataPostagem(LocalDate dataPostagem) {
 		this.dataPostagem = dataPostagem;
+	}
+
+	public Usuario getCriador() {
+		return criador;
+	}
+
+	public void setCriador(Usuario criador) {
+		this.criador = criador;
+	}
+
+	public Tema getTemaRelacionado() {
+		return temaRelacionado;
+	}
+
+	public void setTemaRelacionado(Tema temaRelacionado) {
+		this.temaRelacionado = temaRelacionado;
 	}
 
 }
