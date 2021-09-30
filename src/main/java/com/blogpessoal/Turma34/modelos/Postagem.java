@@ -39,6 +39,7 @@ public class Postagem {
 	@JoinColumn(name = "tema_id")
 	@JsonIgnoreProperties({"postagens"})
 	private Tema temaRelacionado;
+	
 
 	public Long getIdPostagem() {
 		return idPostagem;
@@ -87,5 +88,6 @@ public class Postagem {
 	public void setTemaRelacionado(Tema temaRelacionado) {
 		this.temaRelacionado = temaRelacionado;
 	}
+	
 
 }

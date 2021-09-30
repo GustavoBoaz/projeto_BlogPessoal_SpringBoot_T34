@@ -17,11 +17,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Classe espelho da tabela usuario no banco db_blogpessoal.
+
  * 
  * @author Turma34
  * @since 1.0
- *
  */
+
 @Entity
 public class Usuario {
 
@@ -33,6 +34,7 @@ public class Usuario {
 	@OneToMany(mappedBy = "criador", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties({"criador"})
 	private List<Postagem> minhasPostagens = new ArrayList<>();
+	
 
 	public Long getIdUsuario() {
 		return idUsuario;
@@ -73,5 +75,6 @@ public class Usuario {
 	public void setMinhasPostagens(List<Postagem> minhasPostagens) {
 		this.minhasPostagens = minhasPostagens;
 	}
+	
 
 }
