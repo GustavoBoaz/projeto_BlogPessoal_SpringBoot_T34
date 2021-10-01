@@ -31,5 +31,23 @@ public class UsuarioServicos {
 		});
 
 	}
-
+	
+	/**
+	 * Metodo utilizado para atualizar usuario no banco
+	 * 
+	 * @param usuarioParaAtualizar do tipo Usuario
+	 * @return Optional com Usuario atualizado
+	 * @author Turma34
+	 * @since 1.0
+	 * 
+	 */
+	public Optional<Usuario> atualizarUsuario(Usuario usuarioParaAtualizar){
+		return repositorio.findById(usuarioParaAtualizar.getIdUsuario()).map(resp -> {
+			resp.setNome(usuarioParaAtualizar.getNome());
+			resp.setSenha(usuarioParaAtualizar.getSenha());
+			return Optional.ofNullable(repositorio.save(resp));
+		}).orElseGet(() -> {
+			return Optional.empty();
+		});
+	}
 }
