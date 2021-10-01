@@ -56,7 +56,8 @@ public class UsuarioControlador {
 
 	@PutMapping("/atualizar")
 	public ResponseEntity<Usuario> atualizar(@Valid @RequestBody Usuario novoUsuario) {
-		return ResponseEntity.status(201).body(repositorio.save(novoUsuario));
+		return servicos.atualizarUsuario(novoUsuario).map(resp -> ResponseEntity.status(201).body(resp))
+				.orElse(ResponseEntity.status(400).build());
 
 	}
 
