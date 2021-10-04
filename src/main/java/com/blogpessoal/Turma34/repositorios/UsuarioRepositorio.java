@@ -12,10 +12,10 @@ import com.blogpessoal.Turma34.modelos.Usuario;
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 
 	/**
-	 * Metodo utilizado para realizar pesquisa pela coluna email da tabela usuario
+	 * Método utilizado para realizar pesquisa pela coluna email da tabela usuario
 	 * 
 	 * @param email
-	 * @return Optional com Usuario
+	 * @return Optional com Usuário
 	 * @author Turma34
 	 * @since 1.0
 	 * 
@@ -23,10 +23,10 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 	public Optional<Usuario> findByEmail(String email);
 
 	/**
-	 * Metodo utilizado para realizar pesquisa pela coliuna nome da tabela usuario
+	 * Método utilizado para realizar spesquisa pela coliuna nome da tabela usuario
 	 * 
 	 * @param nome
-	 * @return List com Usuario
+	 * @return List com Usuário
 	 * @author Turma34
 	 * @since 1.0
 	 * 

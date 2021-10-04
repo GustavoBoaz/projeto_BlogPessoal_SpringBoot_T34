@@ -14,7 +14,7 @@ public class UsuarioServicos {
 	private @Autowired UsuarioRepositorio repositorio;
 
 	/**
-	 * Metodo utilizado para cadastrar usuario validando duplicidade de email no
+	 * Metodo utilizado para cadastrar usuário validando duplicidade de email no
 	 * banco
 	 * 
 	 * @param usuarioParaCadastrar do tipo Usuario
