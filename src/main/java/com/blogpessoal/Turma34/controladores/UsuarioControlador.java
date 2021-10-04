@@ -42,13 +42,9 @@ public class UsuarioControlador {
 
 	@GetMapping("/{id_usuario}")
 	public ResponseEntity<Usuario> pegarPorId(@PathVariable(value = "id_usuario") Long idUsuario) {
-		Optional<Usuario> objetoOptional = repositorio.findById(idUsuario);
+		return repositorio.findById(idUsuario).map(resp -> ResponseEntity.status(200).body(resp))
+				.orElse(ResponseEntity.status(400).build());
 
-		if (objetoOptional.isPresent()) {
-			return ResponseEntity.status(200).body(objetoOptional.get());
-		} else {
-			return ResponseEntity.status(204).build();
-		}
 	}
 
 	@PostMapping("/salvar")
@@ -60,7 +56,8 @@ public class UsuarioControlador {
 
 	@PutMapping("/atualizar")
 	public ResponseEntity<Usuario> atualizar(@Valid @RequestBody Usuario novoUsuario) {
-		return ResponseEntity.status(201).body(repositorio.save(novoUsuario));
+		return servicos.atualizarUsuario(novoUsuario).map(resp -> ResponseEntity.status(201).body(resp))
+				.orElse(ResponseEntity.status(400).build());
 
 	}
 
