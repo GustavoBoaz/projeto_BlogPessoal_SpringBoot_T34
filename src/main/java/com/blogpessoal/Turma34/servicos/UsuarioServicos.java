@@ -14,7 +14,7 @@ public class UsuarioServicos {
 	private @Autowired UsuarioRepositorio repositorio;
 
 	/**
-	 * Metodo utilizado para cadastrar usuario validando duplicidade de email no
+	 * Metodo utilizado para cadastrar usuário validando duplicidade de email no
 	 * banco
 	 * 
 	 * @param usuarioParaCadastrar do tipo Usuario
@@ -33,10 +33,10 @@ public class UsuarioServicos {
 	}
 
 	/**
-	 * Metodo utilizado para cadastrar usuario validando duplicidade de email no
+	 * Metodo utilizado para cadastrar usuário validando duplicidade de email no
 	 * banco
 	 * 
-	 * @param usuarioParaCadastrar do tipo Usuario
+	 * @param usuarioParaCadastrar do tipo Usuário
 	 * @return Optional com Usuario cadastrado caso email não seja existente
 	 * @author Turma34
 	 * @since 1.5
@@ -49,11 +49,11 @@ public class UsuarioServicos {
 	}
 
 	/**
-	 * Metodo utilizado para cadastrar usuario validando duplicidade de email no
+	 * Metodo utilizado para cadastrar usuário validando duplicidade de email no
 	 * banco
 	 * 
-	 * @param usuarioParaCadastrar do tipo Usuario
-	 * @return Optional com Usuario cadastrado caso email não seja existente
+	 * @param usuarioParaCadastrar do tipo Usuário
+	 * @return Optional com Usuário cadastrado caso email não seja existente
 	 * @author Turma34
 	 * @since 1.0
 	 * 
