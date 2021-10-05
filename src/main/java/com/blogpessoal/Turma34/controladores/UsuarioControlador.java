@@ -1,7 +1,6 @@
 package com.blogpessoal.Turma34.controladores;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -62,14 +61,10 @@ public class UsuarioControlador {
 	}
 
 	@DeleteMapping("/deletar/{id_usuario}")
-	public ResponseEntity<Usuario> deletar(@PathVariable(value = "id_usuario") Long idUsuario) {
-		Optional<Usuario> objetoOptional = repositorio.findById(idUsuario);
-
-		if (objetoOptional.isPresent()) {
+	public ResponseEntity<Object> deletar(@PathVariable(value = "id_usuario") Long idUsuario) {
+		return repositorio.findById(idUsuario).map(resp -> {
 			repositorio.deleteById(idUsuario);
-			return ResponseEntity.status(204).build();
-		} else {
-			return ResponseEntity.status(400).build();
-		}
+			return ResponseEntity.status(200).build();
+		}).orElse(ResponseEntity.status(400).build());
 	}
 }
