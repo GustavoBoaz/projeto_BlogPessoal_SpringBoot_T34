@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blogpessoal.Turma34.modelos.Usuario;
@@ -31,6 +32,28 @@ public class UsuarioControlador {
 	@GetMapping("/todes")
 	public ResponseEntity<List<Usuario>> pegarTodes() {
 		List<Usuario> objetoLista = repositorio.findAll();
+
+		if (objetoLista.isEmpty()) {
+			return ResponseEntity.status(204).build();
+		} else {
+			return ResponseEntity.status(200).body(objetoLista);
+		}
+	}
+	
+	@GetMapping("/nome/{nome_usuario}")
+	public ResponseEntity<List<Usuario>> buscarPorNomeI(@PathVariable(value = "nome_usuario") String nome) {
+		List<Usuario> objetoLista = repositorio.findAllByNomeContainingIgnoreCase(nome);
+
+		if (objetoLista.isEmpty()) {
+			return ResponseEntity.status(204).build();
+		} else {
+			return ResponseEntity.status(200).body(objetoLista);
+		}
+	}
+	
+	@GetMapping("/pesquisa")
+	public ResponseEntity<List<Usuario>> buscarPorNomeII(@RequestParam(defaultValue = "") String nome) {
+		List<Usuario> objetoLista = repositorio.findAllByNomeContainingIgnoreCase(nome);
 
 		if (objetoLista.isEmpty()) {
 			return ResponseEntity.status(204).build();
