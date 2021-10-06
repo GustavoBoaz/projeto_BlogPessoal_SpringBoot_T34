@@ -15,6 +15,7 @@ public class UsuarioLoginDTO {
 
 	private Long idUsuario;
 	private String nome;
+	private String token;
 
 	public String getEmail() {
 		return email;
@@ -46,6 +47,14 @@ public class UsuarioLoginDTO {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }
