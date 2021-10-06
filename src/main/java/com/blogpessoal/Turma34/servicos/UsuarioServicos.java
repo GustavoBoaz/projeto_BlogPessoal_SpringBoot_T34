@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.blogpessoal.Turma34.modelos.Usuario;
+import com.blogpessoal.Turma34.modelos.dtos.CredenciaisDTO;
 import com.blogpessoal.Turma34.modelos.dtos.UsuarioLoginDTO;
 import com.blogpessoal.Turma34.repositorios.UsuarioRepositorio;
 
@@ -72,7 +73,7 @@ public class UsuarioServicos {
 	 * @since 1.0
 	 * @author Turma34
 	 */
-	public ResponseEntity<UsuarioLoginDTO> pegarCredenciais(UsuarioLoginDTO usuarioParaAutenticar) {
+	public ResponseEntity<CredenciaisDTO> pegarCredenciais(UsuarioLoginDTO usuarioParaAutenticar) {
 		return repositorio.findByEmail(usuarioParaAutenticar.getEmail()).map(resp -> {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -82,12 +83,15 @@ public class UsuarioServicos {
 				byte[] estruturaBase64 = Base64.encodeBase64(estruturaBasic.getBytes(Charset.forName("US-ASCII"))); // hHJyigo-o+i7%0ÍUG465sas=-
 				String tokenBasic = "Basic " + new String(estruturaBase64); // Basic hHJyigo-o+i7%0ÍUG465sas=-
 
-				usuarioParaAutenticar.setToken(tokenBasic);
-				usuarioParaAutenticar.setIdUsuario(resp.getIdUsuario());
-				usuarioParaAutenticar.setNome(resp.getNome());
-				usuarioParaAutenticar.setSenha(resp.getSenha());
+				CredenciaisDTO objetoCredenciaisDTO = new CredenciaisDTO();
+				
+				objetoCredenciaisDTO.setIdUsuario(resp.getIdUsuario());
+				objetoCredenciaisDTO.setNome(resp.getNome());
+				objetoCredenciaisDTO.setEmail(resp.getEmail());
+				objetoCredenciaisDTO.setSenha(resp.getSenha());
+				objetoCredenciaisDTO.setToken(tokenBasic);
 
-				return ResponseEntity.status(201).body(usuarioParaAutenticar); // Usuario Credenciado
+				return ResponseEntity.status(201).body(objetoCredenciaisDTO); // Usuario Credenciado
 			} else {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha Incorreta!"); // Senha incorreta
 			}
