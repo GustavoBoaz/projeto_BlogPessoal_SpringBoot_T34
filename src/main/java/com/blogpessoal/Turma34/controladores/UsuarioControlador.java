@@ -1,7 +1,6 @@
 package com.blogpessoal.Turma34.controladores;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -87,14 +86,8 @@ public class UsuarioControlador {
 	}
 	
 	@PutMapping("/credenciais")
-	public ResponseEntity<Object> credenciais(@Valid @RequestBody UsuarioLoginDTO usuarioParaAutenticar) {
-		Optional<?> objetoOptional = servicos.pegarCredenciais(usuarioParaAutenticar);
-
-		if (objetoOptional.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro na requisição ou usuario não credenciado!", null);
-		} else {
-			return ResponseEntity.status(201).body(objetoOptional.get());
-		}
+	public ResponseEntity<UsuarioLoginDTO> credenciais(@Valid @RequestBody UsuarioLoginDTO usuarioParaAutenticar) {
+		return servicos.pegarCredenciais(usuarioParaAutenticar);
 	}
 
 	@PutMapping("/atualizar")

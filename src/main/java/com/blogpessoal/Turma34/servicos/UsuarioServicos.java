@@ -5,8 +5,11 @@ import java.util.Optional;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.blogpessoal.Turma34.modelos.Usuario;
 import com.blogpessoal.Turma34.modelos.dtos.UsuarioLoginDTO;
@@ -65,11 +68,11 @@ public class UsuarioServicos {
 	 * 
 	 * @param usuarioParaAutenticar do tipo UsuarioLoginDTO necessario email e senha
 	 *                              para validar
-	 * @return UsuarioLoginDTO preenchido com informações mais o Token
+	 * @return ResponseEntity com UsuarioLoginDTO preenchido com informações mais o Token
 	 * @since 1.0
 	 * @author Turma34
 	 */
-	public Optional<?> pegarCredenciais(UsuarioLoginDTO usuarioParaAutenticar) {
+	public ResponseEntity<UsuarioLoginDTO> pegarCredenciais(UsuarioLoginDTO usuarioParaAutenticar) {
 		return repositorio.findByEmail(usuarioParaAutenticar.getEmail()).map(resp -> {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -84,12 +87,12 @@ public class UsuarioServicos {
 				usuarioParaAutenticar.setNome(resp.getNome());
 				usuarioParaAutenticar.setSenha(resp.getSenha());
 
-				return Optional.ofNullable(usuarioParaAutenticar); // Usuario Credenciado
+				return ResponseEntity.status(201).body(usuarioParaAutenticar); // Usuario Credenciado
 			} else {
-				return Optional.empty(); // Senha incorreta
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha Incorreta!"); // Senha incorreta
 			}
 		}).orElseGet(() -> {
-			return Optional.empty(); // Email não existe
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email não existe!"); // Email não existe
 		});
 
 	}
