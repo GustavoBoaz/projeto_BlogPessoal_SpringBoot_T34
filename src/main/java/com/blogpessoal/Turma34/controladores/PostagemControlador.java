@@ -26,29 +26,20 @@ import com.blogpessoal.Turma34.repositorios.PostagemRepositorio;
 public class PostagemControlador {
 
 	private @Autowired PostagemRepositorio repositorio;
-	
+
 	@GetMapping("/todas")
 	public ResponseEntity<List<Postagem>> pegarTodas() {
-		List<Postagem> objetoLista = repositorio.findAll();
+		return ResponseEntity.ok(repositorio.findAll());
 
-		if (objetoLista.isEmpty()) {
-			return ResponseEntity.status(204).build();
-		} else {
-			return ResponseEntity.status(200).body(objetoLista);
-		}
 	}
-	
+
 	@GetMapping("/{id_postagem}")
 	public ResponseEntity<Postagem> pegarPorId(@PathVariable(value = "id_postagem") Long idPostagem) {
-		Optional<Postagem> objetoOptional = repositorio.findById(idPostagem);
+		return repositorio.findById(idPostagem).map(resp -> ResponseEntity.ok(resp))
+				.orElse(ResponseEntity.noContent().build());
 
-		if (objetoOptional.isPresent()) {
-			return ResponseEntity.status(200).body(objetoOptional.get());
-		} else {
-			return ResponseEntity.status(204).build();
-		}
 	}
-	
+
 	@PostMapping("/salvar")
 	public ResponseEntity<Postagem> salvar(@Valid @RequestBody Postagem novaPostagem) {
 		return ResponseEntity.status(201).body(repositorio.save(novaPostagem));
@@ -60,7 +51,7 @@ public class PostagemControlador {
 		return ResponseEntity.status(201).body(repositorio.save(novaPostagem));
 
 	}
-	
+
 	@DeleteMapping("/deletar/{id_postagem}")
 	public ResponseEntity<Postagem> deletar(@PathVariable(value = "id_postagem") Long idPostagem) {
 		Optional<Postagem> objetoOptional = repositorio.findById(idPostagem);
@@ -72,5 +63,5 @@ public class PostagemControlador {
 			return ResponseEntity.status(400).build();
 		}
 	}
-	
+
 }
