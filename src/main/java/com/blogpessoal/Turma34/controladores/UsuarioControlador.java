@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.blogpessoal.Turma34.modelos.Usuario;
+import com.blogpessoal.Turma34.modelos.dtos.CredenciaisDTO;
 import com.blogpessoal.Turma34.modelos.dtos.UsuarioLoginDTO;
 import com.blogpessoal.Turma34.repositorios.UsuarioRepositorio;
 import com.blogpessoal.Turma34.servicos.UsuarioServicos;
@@ -86,7 +87,7 @@ public class UsuarioControlador {
 	}
 	
 	@PutMapping("/credenciais")
-	public ResponseEntity<UsuarioLoginDTO> credenciais(@Valid @RequestBody UsuarioLoginDTO usuarioParaAutenticar) {
+	public ResponseEntity<CredenciaisDTO> credenciais(@Valid @RequestBody UsuarioLoginDTO usuarioParaAutenticar) {
 		return servicos.pegarCredenciais(usuarioParaAutenticar);
 	}
 
