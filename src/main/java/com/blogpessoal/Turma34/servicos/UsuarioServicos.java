@@ -69,7 +69,7 @@ public class UsuarioServicos {
 	 * 
 	 * @param usuarioParaAutenticar do tipo UsuarioLoginDTO necessario email e senha
 	 *                              para validar
-	 * @return ResponseEntity com UsuarioLoginDTO preenchido com informações mais o Token
+	 * @return ResponseEntity com CredenciaisDTO preenchido com informações mais o Token
 	 * @since 1.0
 	 * @author Turma34
 	 */
