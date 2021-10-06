@@ -1,6 +1,7 @@
 package com.blogpessoal.Turma34.controladores;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.blogpessoal.Turma34.modelos.Usuario;
+import com.blogpessoal.Turma34.modelos.dtos.UsuarioLoginDTO;
 import com.blogpessoal.Turma34.repositorios.UsuarioRepositorio;
 import com.blogpessoal.Turma34.servicos.UsuarioServicos;
 
@@ -82,6 +84,17 @@ public class UsuarioControlador {
 							"Email existente, cadastre outro email!.");
 				});
 
+	}
+	
+	@PutMapping("/credenciais")
+	public ResponseEntity<Object> credenciais(@Valid @RequestBody UsuarioLoginDTO usuarioParaAutenticar) {
+		Optional<?> objetoOptional = servicos.pegarCredenciais(usuarioParaAutenticar);
+
+		if (objetoOptional.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro na requisição ou usuario não credenciado!", null);
+		} else {
+			return ResponseEntity.status(201).body(objetoOptional.get());
+		}
 	}
 
 	@PutMapping("/atualizar")
