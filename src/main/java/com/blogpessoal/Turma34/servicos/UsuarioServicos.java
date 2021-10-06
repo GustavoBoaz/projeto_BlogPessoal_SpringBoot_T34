@@ -3,6 +3,7 @@ package com.blogpessoal.Turma34.servicos;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.blogpessoal.Turma34.modelos.Usuario;
@@ -27,6 +28,9 @@ public class UsuarioServicos {
 		return repositorio.findByEmail(usuarioParaCadastrar.getEmail()).map(usuarioExistente -> {
 			return Optional.empty();
 		}).orElseGet(() -> {
+			BCryptPasswordEncoder encoder =  new BCryptPasswordEncoder();
+			String senhaCriptografada = encoder.encode(usuarioParaCadastrar.getSenha());
+			usuarioParaCadastrar.setSenha(senhaCriptografada);
 			return Optional.ofNullable(repositorio.save(usuarioParaCadastrar));
 		});
 
