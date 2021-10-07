@@ -104,7 +104,7 @@ public class UsuarioServicos {
 	 * @param senha
 	 * @return Token no formato Basic para autenticação
 	 * @since 1.0
-	 * 
+	 * @author Turma34
 	 */
 	private static String gerarToken(String email, String senha) {
 		String estruturaBasic = email + ":" + senha; // gustavoboaz@gmail.com:134652
