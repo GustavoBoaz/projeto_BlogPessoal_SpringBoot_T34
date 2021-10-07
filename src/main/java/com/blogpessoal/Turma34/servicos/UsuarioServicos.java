@@ -22,6 +22,20 @@ public class UsuarioServicos {
 	private @Autowired UsuarioRepositorio repositorio;
 
 	/**
+	 * Método estatico que recebe a senha do usuario o criptografa
+	 * 
+	 * @param senha
+	 * @return String da senha criptografada
+ 	 * @since 1.0
+	 * @author Turma34
+	 */
+	private static String encriptadorDeSenha(String senha) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder.encode(senha);
+
+	}
+
+	/**
 	 * Metodo utilizado para cadastrar usuário validando duplicidade de email no
 	 * banco
 	 * 
@@ -58,6 +72,22 @@ public class UsuarioServicos {
 		}).orElseGet(() -> {
 			return Optional.empty();
 		});
+
+	}
+	
+	/**
+	 * Metodo statico utilizado para gerar token
+	 * 
+	 * @param email
+	 * @param senha
+	 * @return Token no formato Basic para autenticação
+	 * @since 1.0
+	 * @author Turma34
+	 */
+	private static String gerarToken(String email, String senha) {
+		String estruturaBasic = email + ":" + senha; // gustavoboaz@gmail.com:134652
+		byte[] estruturaBase64 = Base64.encodeBase64(estruturaBasic.getBytes(Charset.forName("US-ASCII"))); // hHJyigo-o+i7%0ÍUG465sas=-
+		return "Basic " + new String(estruturaBase64); // Basic hHJyigo-o+i7%0ÍUG465sas=-
 
 	}
 
@@ -97,33 +127,4 @@ public class UsuarioServicos {
 
 	}
 
-	/**
-	 * Metodo statico utilizado para gerar token
-	 * 
-	 * @param email
-	 * @param senha
-	 * @return Token no formato Basic para autenticação
-	 * @since 1.0
-	 * @author Turma34
-	 */
-	private static String gerarToken(String email, String senha) {
-		String estruturaBasic = email + ":" + senha; // gustavoboaz@gmail.com:134652
-		byte[] estruturaBase64 = Base64.encodeBase64(estruturaBasic.getBytes(Charset.forName("US-ASCII"))); // hHJyigo-o+i7%0ÍUG465sas=-
-		return "Basic " + new String(estruturaBase64); // Basic hHJyigo-o+i7%0ÍUG465sas=-
-
-	}
-
-	/**
-	 * Método estatico que recebe a senha do usuario o criptografa
-	 * 
-	 * @param senha
-	 * @return String da senha criptografada
- 	 * @since 1.0
-	 * @author Turma34
-	 */
-	private static String encriptadorDeSenha(String senha) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder.encode(senha);
-
-	}
 }
