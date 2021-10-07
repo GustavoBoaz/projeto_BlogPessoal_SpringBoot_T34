@@ -35,9 +35,7 @@ public class UsuarioServicos {
 		return repositorio.findByEmail(usuarioParaCadastrar.getEmail()).map(usuarioExistente -> {
 			return Optional.empty();
 		}).orElseGet(() -> {
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			String senhaCriptografada = encoder.encode(usuarioParaCadastrar.getSenha());
-			usuarioParaCadastrar.setSenha(senhaCriptografada);
+			usuarioParaCadastrar.setSenha(encriptadorDeSenha(usuarioParaCadastrar.getSenha()));
 			return Optional.ofNullable(repositorio.save(usuarioParaCadastrar));
 		});
 
@@ -54,15 +52,13 @@ public class UsuarioServicos {
 	 */
 	public Optional<Usuario> atualizarUsuario(Usuario usuarioParaAtualizar) {
 		return repositorio.findById(usuarioParaAtualizar.getIdUsuario()).map(resp -> {
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			String senhaCriptografada = encoder.encode(usuarioParaAtualizar.getSenha());
-			
 			resp.setNome(usuarioParaAtualizar.getNome());
-			resp.setSenha(senhaCriptografada);
+			resp.setSenha(encriptadorDeSenha(usuarioParaAtualizar.getSenha()));
 			return Optional.ofNullable(repositorio.save(resp));
 		}).orElseGet(() -> {
 			return Optional.empty();
 		});
+
 	}
 
 	/**
@@ -72,7 +68,8 @@ public class UsuarioServicos {
 	 * 
 	 * @param usuarioParaAutenticar do tipo UsuarioLoginDTO necessario email e senha
 	 *                              para validar
-	 * @return ResponseEntity com CredenciaisDTO preenchido com informações mais o Token
+	 * @return ResponseEntity com CredenciaisDTO preenchido com informações mais o
+	 *         Token
 	 * @since 1.0
 	 * @author Turma34
 	 */
@@ -83,7 +80,7 @@ public class UsuarioServicos {
 			if (encoder.matches(usuarioParaAutenticar.getSenha(), resp.getSenha())) {
 
 				CredenciaisDTO objetoCredenciaisDTO = new CredenciaisDTO();
-				
+
 				objetoCredenciaisDTO.setToken(gerarToken(usuarioParaAutenticar.getEmail(), usuarioParaAutenticar.getSenha()));
 				objetoCredenciaisDTO.setIdUsuario(resp.getIdUsuario());
 				objetoCredenciaisDTO.setNome(resp.getNome());
@@ -99,7 +96,7 @@ public class UsuarioServicos {
 		});
 
 	}
-	
+
 	/**
 	 * Metodo statico utilizado para gerar token
 	 * 
@@ -113,6 +110,20 @@ public class UsuarioServicos {
 		String estruturaBasic = email + ":" + senha; // gustavoboaz@gmail.com:134652
 		byte[] estruturaBase64 = Base64.encodeBase64(estruturaBasic.getBytes(Charset.forName("US-ASCII"))); // hHJyigo-o+i7%0ÍUG465sas=-
 		return "Basic " + new String(estruturaBase64); // Basic hHJyigo-o+i7%0ÍUG465sas=-
-		
+
+	}
+
+	/**
+	 * Método estatico que recebe a senha do usuario o criptografa
+	 * 
+	 * @param senha
+	 * @return String da senha criptografada
+ 	 * @since 1.0
+	 * @author Turma34
+	 */
+	private static String encriptadorDeSenha(String senha) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder.encode(senha);
+
 	}
 }
