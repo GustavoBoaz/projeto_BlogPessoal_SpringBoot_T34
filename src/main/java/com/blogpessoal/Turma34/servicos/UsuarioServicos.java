@@ -49,13 +49,16 @@ public class UsuarioServicos {
 	 * @param usuarioParaAtualizar do tipo Usuario
 	 * @return Optional com Usuario atualizado
 	 * @author Turma34
-	 * @since 1.0
+	 * @since 1.5
 	 * 
 	 */
 	public Optional<Usuario> atualizarUsuario(Usuario usuarioParaAtualizar) {
 		return repositorio.findById(usuarioParaAtualizar.getIdUsuario()).map(resp -> {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			String senhaCriptografada = encoder.encode(usuarioParaAtualizar.getSenha());
+			
 			resp.setNome(usuarioParaAtualizar.getNome());
-			resp.setSenha(usuarioParaAtualizar.getSenha());
+			resp.setSenha(senhaCriptografada);
 			return Optional.ofNullable(repositorio.save(resp));
 		}).orElseGet(() -> {
 			return Optional.empty();
