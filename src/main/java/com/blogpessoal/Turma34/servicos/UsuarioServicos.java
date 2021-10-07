@@ -79,17 +79,13 @@ public class UsuarioServicos {
 
 			if (encoder.matches(usuarioParaAutenticar.getSenha(), resp.getSenha())) {
 
-				String estruturaBasic = usuarioParaAutenticar.getEmail() + ":" + usuarioParaAutenticar.getSenha(); // gustavoboaz@gmail.com:134652
-				byte[] estruturaBase64 = Base64.encodeBase64(estruturaBasic.getBytes(Charset.forName("US-ASCII"))); // hHJyigo-o+i7%0ÍUG465sas=-
-				String tokenBasic = "Basic " + new String(estruturaBase64); // Basic hHJyigo-o+i7%0ÍUG465sas=-
-
 				CredenciaisDTO objetoCredenciaisDTO = new CredenciaisDTO();
 				
+				objetoCredenciaisDTO.setToken(gerarToken(usuarioParaAutenticar.getEmail(), usuarioParaAutenticar.getSenha()));
 				objetoCredenciaisDTO.setIdUsuario(resp.getIdUsuario());
 				objetoCredenciaisDTO.setNome(resp.getNome());
 				objetoCredenciaisDTO.setEmail(resp.getEmail());
 				objetoCredenciaisDTO.setSenha(resp.getSenha());
-				objetoCredenciaisDTO.setToken(tokenBasic);
 
 				return ResponseEntity.status(201).body(objetoCredenciaisDTO); // Usuario Credenciado
 			} else {
@@ -99,5 +95,21 @@ public class UsuarioServicos {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email não existe!"); // Email não existe
 		});
 
+	}
+	
+	/**
+	 * Metodo statico utilizado para gerar token
+	 * 
+	 * @param email
+	 * @param senha
+	 * @return Token no formato Basic para autenticação
+	 * @since 1.0
+	 * 
+	 */
+	private static String gerarToken(String email, String senha) {
+		String estruturaBasic = email + ":" + senha; // gustavoboaz@gmail.com:134652
+		byte[] estruturaBase64 = Base64.encodeBase64(estruturaBasic.getBytes(Charset.forName("US-ASCII"))); // hHJyigo-o+i7%0ÍUG465sas=-
+		return "Basic " + new String(estruturaBase64); // Basic hHJyigo-o+i7%0ÍUG465sas=-
+		
 	}
 }
