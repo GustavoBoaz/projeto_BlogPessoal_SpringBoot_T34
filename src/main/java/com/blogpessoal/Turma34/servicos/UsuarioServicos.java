@@ -28,6 +28,7 @@ public class UsuarioServicos {
 	 * @return String da senha criptografada
  	 * @since 1.0
 	 * @author Turma34
+	 * 
 	 */
 	private static String encriptadorDeSenha(String senha) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -76,18 +77,23 @@ public class UsuarioServicos {
 	}
 	
 	/**
-	 * Metodo statico utilizado para gerar token
+	 * Metodo estatico utilizado para gerar token formato Basic
+	 * 
+	 * <p> estrutura ex. gustavo@email.com:134652
+	 * <p> estruturaBase64 ex. cGFtZWxhQGVtYWlsLmNvbToxMzQ2NTI
+	 * <p> estruturaBasic = Basic cGFtZWxhQGVtYWlsLmNvbToxMzQ2NTI
 	 * 
 	 * @param email
 	 * @param senha
 	 * @return Token no formato Basic para autenticação
 	 * @since 1.0
 	 * @author Turma34
+	 * 
 	 */
 	private static String gerarToken(String email, String senha) {
-		String estruturaBasic = email + ":" + senha; // gustavoboaz@gmail.com:134652
-		byte[] estruturaBase64 = Base64.encodeBase64(estruturaBasic.getBytes(Charset.forName("US-ASCII"))); // hHJyigo-o+i7%0ÍUG465sas=-
-		return "Basic " + new String(estruturaBase64); // Basic hHJyigo-o+i7%0ÍUG465sas=-
+		String estrutura = email + ":" + senha;
+		byte[] estruturaBase64 = Base64.encodeBase64(estrutura.getBytes(Charset.forName("US-ASCII")));
+		return "Basic " + new String(estruturaBase64);
 
 	}
 
@@ -102,6 +108,7 @@ public class UsuarioServicos {
 	 *         Token
 	 * @since 1.0
 	 * @author Turma34
+	 * 
 	 */
 	public ResponseEntity<CredenciaisDTO> pegarCredenciais(UsuarioLoginDTO usuarioParaAutenticar) {
 		return repositorio.findByEmail(usuarioParaAutenticar.getEmail()).map(resp -> {
