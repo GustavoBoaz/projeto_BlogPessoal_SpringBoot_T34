@@ -13,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Classe espelho da tabela tema no banco db_blogpessoal.
  * 
@@ -28,6 +30,7 @@ public class Tema {
 
 	@OneToMany(mappedBy = "temaRelacionado", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties({"temaRelacionado"})
+	@ApiModelProperty(hidden = true)
 	private List<Postagem> postagens = new ArrayList<>();
 
 	public Long getIdTema() {
